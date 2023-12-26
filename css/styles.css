@@ -15,6 +15,7 @@
 
 .gallery-image {
     max-width: 360px;
+    display: block;
 }
 
 
