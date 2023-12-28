@@ -84,6 +84,13 @@ galleryContainer.innerHTML = images.map(createGalleryItem).join("");
 
 let modal = null;
 
+function handleKeyPress(event) {
+    if (event.code === "Escape") {
+        modal.close();
+        document.removeEventListener("keydown", handleKeyPress);
+    }
+}
+
 galleryContainer.addEventListener("click", function (event) {
     event.preventDefault();
 
@@ -92,16 +99,17 @@ galleryContainer.addEventListener("click", function (event) {
     if (target.classList.contains("gallery-image")) {
         const largeImageSrc = target.dataset.source;
 
-        modal = basicLightbox.create(`<img src="${largeImageSrc}" alt="Large Image">`);
+        modal = basicLightbox.create(`<img src="${largeImageSrc}" alt="Large Image">`,
+            {
+                onShow: () => {
+                    document.addEventListener("keydown", handleKeyPress);
+                },
+                onClose: () => {
+                    document.removeEventListener("keydown", handleKeyPress);
+                }
+            }
+        );
+        
         modal.show();
-
-        document.addEventListener("keydown", handleKeyPress);
     }
 });
-
-function handleKeyPress(event) {
-    if (event.code === "Escape") {
-        modal.close();
-        document.removeEventListener("keydown", handleKeyPress);
-    }
-}
