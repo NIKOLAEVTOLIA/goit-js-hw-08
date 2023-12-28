@@ -82,7 +82,7 @@ const createGalleryItem = ({ preview, original, description }) =>
 
 galleryContainer.innerHTML = images.map(createGalleryItem).join("");
 
-let instance = null;
+let modal = null;
 
 galleryContainer.addEventListener("click", function (event) {
     event.preventDefault();
@@ -92,8 +92,8 @@ galleryContainer.addEventListener("click", function (event) {
     if (target.classList.contains("gallery-image")) {
         const largeImageSrc = target.dataset.source;
 
-        instance = basicLightbox.create(`<img src="${largeImageSrc}" alt="Large Image">`);
-        instance.show();
+        modal = basicLightbox.create(`<img src="${largeImageSrc}" alt="Large Image">`);
+        modal.show();
 
         document.addEventListener("keydown", handleKeyPress);
     }
@@ -101,7 +101,7 @@ galleryContainer.addEventListener("click", function (event) {
 
 function handleKeyPress(event) {
     if (event.code === "Escape") {
-        instance.close();
+        modal.close();
         document.removeEventListener("keydown", handleKeyPress);
     }
 }
